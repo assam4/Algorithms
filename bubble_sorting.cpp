@@ -4,7 +4,7 @@
 #include <iostream>
 
 template <typename Container>  // limitation for correct operation
-concept Bidirectional_support = requires(Container& container) {  requires std::bidirectional_iterator<decltype(container.begin())>; };
+concept Bidirectional_support = requires(Container& container) { std::bidirectional_iterator<decltype(container.begin())>; };
 
 template <Bidirectional_support Container>
 void bubble_sorting(Container& container)  
@@ -28,7 +28,7 @@ void bubble_sorting(Container& container)
 int main()
 {
     std::vector<int> vec = {5, 3, 1, 4, 2};
-    static_assert(ForwardContainer<decltype(vec)>);  // check concept
+    static_assert(Bidirectional_support<decltype(vec)>);  // check concept
     bubble_sorting(vec);
     for (const auto& element : vec)
         std::cout << element << " ";
