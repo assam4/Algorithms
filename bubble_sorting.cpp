@@ -32,6 +32,5 @@ int main()
     bubble_sorting(vec);
     for (const auto& element : vec)
         std::cout << element << " ";
-
     return 0;
 }
