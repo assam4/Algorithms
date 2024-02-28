@@ -1,21 +1,13 @@
-#include <iostream>
+#include <concepts>
+#include <algorithm>
 #include <vector>
+#include <iostream>
 
-template <typename T> // Forward_iterator type 
-concept forward_iterator =
-        std::input_iterator<T> &&
-        std::derived_from<typename std::iterator_traits<T>::iterator_category, std::forward_iterator_tag> &&
-        std::incrementable<T> &&
-        std::sentinel_for<T, T>;
+template <typename Container>  // limitation for correct operation
+concept Bidirectional_support = requires(Container& container) {  requires std::bidirectional_iterator<decltype(container.begin())>; };
 
-template <typename Container> // concept forward_iterator
-concept ForwardContainer = requires(Container& container)   {
-                                                                { container.begin() } -> forward_iterator;
-                                                                { container.end() } -> forward_iterator;
-                                                            };
-
-template <ForwardContainer Container>
-void bubble_sorting(Container& container)  // Bubble_sorting method for containers supporting  ForwardContainer concept 
+template <Bidirectional_support Container>
+void bubble_sorting(Container& container)  
 {
     bool is_sorted = false ;
     while(!is_sorted)
@@ -24,10 +16,10 @@ void bubble_sorting(Container& container)  // Bubble_sorting method for containe
         for(auto current = container.begin() ; current != container.end() ; ++current )
             if(current != container.begin())
             {
-                if( *current < *(current - 1))
+                if(*current < *(current - 1))
                {
-                std::iter_swap(current, current - 1);
-                is_sorted = false ;
+                 std::iter_swap(current, current - 1);
+                 is_sorted = false ;
                }
             }
     }
@@ -36,6 +28,7 @@ void bubble_sorting(Container& container)  // Bubble_sorting method for containe
 int main()
 {
     std::vector<int> vec = {5, 3, 1, 4, 2};
+    static_assert(ForwardContainer<decltype(vec)>);  // check concept
     bubble_sorting(vec);
     for (const auto& element : vec)
         std::cout << element << " ";
