@@ -9,7 +9,7 @@ const int Half = 2;
 template <typename T>  // limitation for correct operation
 concept Bidirectional_iterator = requires(T) 
 { 
-    typename std::iterator_traits<T>::iterator_category;  
+    typename std::iterator_traits<T>::iterator_category;  // std::bidirectional_iterator<T>;
 };
 
 template <Bidirectional_iterator _iterator>
