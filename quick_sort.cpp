@@ -31,7 +31,7 @@ void qsort(_iterator first, _iterator last )
             --right;
         }
     }
-    while (left != right && left < right); 
+    while (left < right); 
 
     if (right > first) qsort(first, right);
     if (left < last) qsort(left, last);
