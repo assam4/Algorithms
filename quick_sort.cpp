@@ -10,6 +10,7 @@ template <typename T>  // limitation for correct operation
 concept Bidirectional_iterator = requires(T) 
 { 
     typename std::iterator_traits<T>::iterator_category;  // std::bidirectional_iterator<T>;
+    requires std::same_as<typename std::iterator_traits<T>::iterator_category, std::bidirectional_iterator_tag>;
 };
 
 template <Bidirectional_iterator _iterator>
